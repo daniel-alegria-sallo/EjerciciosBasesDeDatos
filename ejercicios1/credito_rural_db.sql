@@ -3,19 +3,22 @@
 -- ====================================================
 use master
 go
+
 if exists (select * from sysdatabases where name = 'DBCreditoRural')
 begin
-	drop database DBCreditoRural
+    drop database DBCreditoRural
 end
 
 create database DBCreditoRural
 go
+
 -- ====================================================
 -- Crear los tipos y las tablas
 -- ====================================================
 /* Activar Base de datos: DBCreditoRural */
 use DBCreditoRural
 go
+
 /* Crear los tipos */
 exec sp_addtype TCodComunidad, "varchar(12)","NOT NULL"
 exec sp_addtype TCodPrestatario, "varchar(8)","NOT NULL"
@@ -42,7 +45,7 @@ create table Prestatario
   Sexo             varchar(9) check (Sexo in ('MASCULINO','FEMENINO')),
   EstadoCivil      varchar(15) check (EstadoCivil in ('SOLTERO','CASADO','DIVORCIADO','VIUDO','CONVIVIENTE')),
   DocIdentidad     varchar(15),
-  CodComunidad   TCodComunidad,
+  CodComunidad     TCodComunidad,
   -- definicion de claves
   PRIMARY KEY (CodPrestatario),
   FOREIGN KEY (CodComunidad) REFERENCES Comunidad(CodComunidad)
@@ -53,7 +56,7 @@ create table Oficial_Credito
 ( --lista de atributos
   CodOficial   TCodOficial,
   Nombres      varchar(40) NOT NULL,
-  Email	       varchar(35),
+  Email        varchar(35),
   -- definicion de claves
   PRIMARY KEY (CodOficial)
  )
@@ -65,8 +68,8 @@ create table Prestamo
   FechaPrestamo     datetime,
   Importe           numeric(15,2) check(Importe > 0),
   FechaVencimiento  datetime,
-  CodPrestatario   TCodPrestatario,
-  CodOficial   TCodOficial,
+  CodPrestatario    TCodPrestatario,
+  CodOficial        TCodOficial,
   -- definicion de claves
   PRIMARY KEY (DocPrestamo),
   FOREIGN KEY (CodPrestatario) REFERENCES Prestatario,
@@ -111,8 +114,8 @@ INSERT INTO Comunidad values ('C016','Comunidad de Calca')
 INSERT INTO Comunidad values ('C017','Comunidad de Yucay')
 INSERT INTO Comunidad values ('C018','Comunidad de Paruro')
 INSERT INTO Comunidad values ('C019','Comunidad de Accos')
-
 go
+
 --------------------- Tabla : Prestatario ----------------------------------
 INSERT INTO Prestatario values ('P01','Lopez Caceres Jose Antonio','Masculino','Soltero','23224556','C002')
 INSERT INTO Prestatario values ('P02','Delgado Caceres Ana Maria','Femenino','Casado','23322556','C001')
@@ -155,7 +158,6 @@ INSERT INTO Prestatario values ('P40','Cardenas Angulo Julio Cesar','Masculino',
 INSERT INTO Prestatario values ('P41','Alarcon Arroyo Juan','Masculino','Casado','18879280','C018')
 INSERT INTO Prestatario values ('P42','Rojas Sosa Andres ','Masculino','Casado','19855280','C014')
 INSERT INTO Prestatario values ('P43','Arguedas Pizarro Antonio','Masculino','SOLTERO','85296478','C018')
-
 go
 
 --------------------- Tabla : Oficial_Credito ----------------------------------
@@ -174,8 +176,8 @@ INSERT INTO Oficial_Credito values ('OC0012','Aucca Cardenas Marcco','mar_1@hotm
 INSERT INTO Oficial_Credito values ('OC0013','Ayala Huaman Jose','pepito@yahoo.es')
 INSERT INTO Oficial_Credito values ('OC0014','Bazalar Mendoza Yuri','yuri@yahoo.com')
 INSERT INTO Oficial_Credito values ('OC0015','Martinez Holgado Juan','juan@gmail.com')
-
 go
+
 --------------------- Tabla : Prestamo ----------------------------------
 INSERT INTO Prestamo values ('PR10001','02/01/2004',1500.00,'02/05/2004','P01','OC0001')
 INSERT INTO Prestamo values ('PR10002','10/01/2004',7500.00,'10/06/2004','P03','OC0001')
@@ -302,8 +304,8 @@ INSERT INTO Prestamo values ('PR10132','08/03/2011',6600.00,'01/01/2012','P40','
 INSERT INTO Prestamo values ('PR10133','06/03/2012',3600.00,'01/08/2013','P40','OC0015')
 INSERT INTO Prestamo values ('PR10134','03/01/2009',18000.00,'01/05/2010','P43','OC0015')
 INSERT INTO Prestamo values ('PR10135','03/01/2013',19000.00,'31/12/2013','P43','OC0015')
-
 go
+
 --------------------- Tabla : Amortizacion ----------------------------------
 INSERT INTO Amortizacion values ('C10000','03/03/2004',500.00,'PR10001')
 INSERT INTO Amortizacion values ('C10001','04/05/2004',600.00,'PR10001')
